@@ -8,10 +8,8 @@ const PG = {
   password: process.env.PG_PASSWORD || 'dev',
   dialect: process.env.PG_DIALECT || 'postgres',
   dialectOptions: {
-    ssl: process.env === 'development' ? {
-      require: true,
-      rejectUnauthorized: false,
-    } : true,
+    require: true,
+    rejectUnauthorized: false,
   },
 };
 console.log(PG, process.env.PG_PORT);
