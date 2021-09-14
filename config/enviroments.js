@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const PG = {
-  port: process.env.PORT || 5432,
+  port: process.env.PG_PORT || 5432,
   db: process.env.PG_DB || 'shopping',
   host: process.env.PG_HOST || 'localhost',
   userName: process.env.PG_USERNAME || 'dev',
@@ -14,7 +14,7 @@ const PG = {
     } : true,
   },
 };
-console.log(PG);
+console.log(PG, process.env.PG_PORT);
 const PG_URL = `postgres://${PG.userName}:${PG.password}@${PG.host}:${PG.port}/${PG.db}`;
 
 module.exports = {
