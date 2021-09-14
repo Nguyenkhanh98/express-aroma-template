@@ -4,7 +4,11 @@ const router = express.Router();
 
 /* GET users listing. */
 router.get('/', (req, res, next) => {
-  res.render('blog', { banner: 'Our blog' });
+  res.render('category');
+});
+
+router.get('/:id', (req, res, next) => {
+  res.render('single-product', { id: req.params.id });
 });
 
 module.exports = router;
