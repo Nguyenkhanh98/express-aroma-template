@@ -24,11 +24,5 @@ module.exports = {
   production: {
     url: PG_URL,
     dialect: 'postgres',
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false,
-      },
-    },
   },
 };
