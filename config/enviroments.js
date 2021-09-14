@@ -14,7 +14,7 @@ const PG = {
     } : true,
   },
 };
-
+console.log(PG);
 const PG_URL = `postgres://${PG.userName}:${PG.password}@${PG.host}:${PG.port}/${PG.db}`;
 
 module.exports = {
