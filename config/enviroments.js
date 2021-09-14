@@ -7,15 +7,13 @@ const PG = {
   userName: process.env.PG_USERNAME || 'dev',
   password: process.env.PG_PASSWORD || 'dev',
   dialect: process.env.PG_DIALECT || 'postgres',
-};
-if (process.env === 'development') {
-  PG.dialectOptions = {
-    ssl: {
+  dialectOptions: {
+    ssl: process.env === 'development' ? {
       require: true,
       rejectUnauthorized: false,
-    },
-  };
-}
+    } : true,
+  },
+};
 
 const PG_URL = `postgres://${PG.userName}:${PG.password}@${PG.host}:${PG.port}/${PG.db}`;
 
