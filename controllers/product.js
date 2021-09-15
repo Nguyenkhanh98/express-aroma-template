@@ -1,7 +1,9 @@
-const { Product, Category } = require('../database/models');
+const {
+  Product, Category, ProductSpecification, Specification, Comment, User, Review,
+} = require('../database/models');
 
 module.exports = {
-  getTrendingProducts: async (req, res) => {
+  getTrendingProducts: async () => {
     const data = await Product.findAll({
       order: [['overallReview', 'DESC']],
       limit: 8,
@@ -11,7 +13,7 @@ module.exports = {
     });
     return data;
   },
-  getAll: async (req, res) => {
+  getAll: async () => {
     const data = await Product.findAll({
       order: [['overallReview', 'DESC']],
       include: [{ model: Category }],
@@ -19,5 +21,54 @@ module.exports = {
       nest: true,
     });
     return data;
+  },
+
+  getById: async (id) => {
+    const product = await Product.findOne({
+      where: { id },
+      include: [{ model: Category }],
+      raw: true,
+      nest: true,
+    });
+    const productSpecifications = await ProductSpecification.findAll({
+      where: { productId: id },
+      include: [{ model: Specification }],
+      raw: true,
+      nest: true,
+    });
+    const comments = await Comment.findAll({
+      where: { productId: id, parentCommentId: null },
+      include: [{ model: User },
+        {
+          model: Comment,
+          as: 'SubComments',
+          include: [{ model: User }],
+
+        },
+      ],
+    });
+
+    const reviews = await Review.findAll({
+      where: { productId: id },
+      include: [{ model: User }],
+      raw: true,
+      nest: true,
+    });
+    const starsCount = {};
+    reviews.forEach((review) => {
+      if (starsCount[review.rating]) {
+        starsCount[review.rating] += 1;
+      } else {
+        starsCount[review.rating] = 1;
+      }
+    });
+    product.ProductSpecifications = productSpecifications;
+    product.Comments = JSON.parse(JSON.stringify(comments));
+    product.Reviews = reviews;
+    product.StarsCount = starsCount;
+
+    const toltalRating = reviews.reduce((t, { rating }) => t + rating, 0);
+    product.overall = Math.round(toltalRating / reviews.length);
+    return product;
   },
 };

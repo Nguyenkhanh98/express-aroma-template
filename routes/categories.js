@@ -20,7 +20,6 @@ router.get('/', async (req, res, next) => {
     res.locals.brands = brands;
     res.locals.colors = colors;
     res.locals.products = products;
-    console.log(colors);
     res.render('category');
   } catch (error) {
     next(error);

@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const expressHbs = require('express-handlebars');
 const Routes = require('./routers');
+const hbsHelper = require('../utils/hbs');
 
 const app = express();
 
@@ -19,13 +20,19 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
+const timesHelper = ('times', (n, block) => {
+  let accum = '';
+  for (let i = 0; i < n; ++i) accum += block.fn(i);
+  return accum;
+});
+console.log({ ...hbsHelper });
 const hbs = expressHbs.create({
   extname: 'hbs',
   defaultLayout: 'layout',
   layoutsDir: `${__dirname}/../views/layouts/`,
   partialsDir: `${__dirname}/../views/partials/`,
+  helpers: { ...hbsHelper },
 });
-
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 Routes(app);
