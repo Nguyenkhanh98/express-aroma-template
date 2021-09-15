@@ -36,7 +36,6 @@ const hbsHelper = {
     return accum;
   },
   getStars: (starsCount, starType) => {
-    console.log(starsCount, starType);
     if (starsCount[`${starType}`]) {
       return starsCount[`${starType}`];
     }

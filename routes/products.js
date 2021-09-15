@@ -18,7 +18,6 @@ router.get('/:id', async (req, res, next) => {
   const { id } = req.params;
   const product = await productController.getById(id);
   res.locals.product = product;
-  console.log(product);
   res.render('single-product');
 });
 

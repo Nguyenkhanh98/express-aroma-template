@@ -12,7 +12,6 @@ const PG = {
     rejectUnauthorized: false,
   },
 };
-console.log(PG, process.env.PG_PORT);
 const PG_URL = `postgres://${PG.userName}:${PG.password}@${PG.host}:${PG.port}/${PG.db}`;
 
 module.exports = {

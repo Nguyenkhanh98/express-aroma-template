@@ -25,7 +25,6 @@ const timesHelper = ('times', (n, block) => {
   for (let i = 0; i < n; ++i) accum += block.fn(i);
   return accum;
 });
-console.log({ ...hbsHelper });
 const hbs = expressHbs.create({
   extname: 'hbs',
   defaultLayout: 'layout',
