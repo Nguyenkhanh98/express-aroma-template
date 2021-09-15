@@ -1,9 +1,15 @@
 const express = require('express');
 
 const router = express.Router();
+const brandController = require('../controllers/brand');
+const categoryController = require('../controllers/categories');
 
 /* GET users listing. */
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
+  const categories = await categoryController.getAll();
+  const brands = await brandController.getAll();
+  res.locals.categories = categories;
+  res.locals.brands = brands;
   res.render('category');
 });
 
