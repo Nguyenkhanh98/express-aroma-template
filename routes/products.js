@@ -19,15 +19,8 @@ router.get('/', async (req, res, next) => {
       if (req.query.color && (isNaN(req.query.color) || req.query.color === '0')) {
         req.query.color = null;
       }
-
-      if (req.query.min && (isNaN(req.query.min))) {
-        req.query.min = 0;
-      }
-      if (req.query.max && (isNaN(req.query.max))) {
-        req.query.max = 100;
-      }
     }
-
+    console.log(req.query);
     const [categories, brands, colors, products] = await Promise.all(
       [categoryController.getAll(req.query),
         brandController.getAll(req.query),

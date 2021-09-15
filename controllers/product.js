@@ -17,12 +17,24 @@ module.exports = {
     return data;
   },
   getAll: async (query) => {
+    console.log(query);
+    let min = 0;
+    let max = 100;
+    if (query) {
+      if ((query.min && (!isNaN(query.min)))) {
+        min = query.min;
+      }
+      if ((query.max && (!isNaN(query.max)))) {
+        max = query.max;
+      }
+    }
+
     const options = {
       include: [{ model: Category }],
       where: {
         price: {
-          [Op.gte]: parseInt(query.min),
-          [Op.lte]: parseInt(query.max),
+          [Op.gte]: parseInt(min),
+          [Op.lte]: parseInt(max),
         },
       },
       nest: true,
