@@ -20,11 +20,6 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-const timesHelper = ('times', (n, block) => {
-  let accum = '';
-  for (let i = 0; i < n; ++i) accum += block.fn(i);
-  return accum;
-});
 const hbs = expressHbs.create({
   extname: 'hbs',
   defaultLayout: 'layout',

@@ -1,6 +1,9 @@
+const Sequelize = require('sequelize');
 const {
-  Product, Category, ProductSpecification, Specification, Comment, User, Review,
+  Product, Category, ProductSpecification, Specification, Comment, User, Review, ProductColor,
 } = require('../database/models');
+
+const { Op } = Sequelize;
 
 module.exports = {
   getTrendingProducts: async () => {
@@ -13,13 +16,38 @@ module.exports = {
     });
     return data;
   },
-  getAll: async () => {
-    const data = await Product.findAll({
-      order: [['overallReview', 'DESC']],
+  getAll: async (query) => {
+    console.log(query);
+    const options = {
       include: [{ model: Category }],
-      raw: true,
+      where: {
+        price: {
+          [Op.gte]: parseInt(query.min),
+          [Op.lte]: parseInt(query.max),
+        },
+      },
       nest: true,
-    });
+      raw: true,
+    };
+    if (query && query.category) {
+      options.where.categoryId = query.category;
+    }
+
+    if (query && query.brand) {
+      options.where.brandId = query.brand;
+    }
+
+    if (query && query.color) {
+      options.include.push({
+        model: ProductColor,
+        attributes: [],
+        where: {
+          colorId: query.color,
+        },
+      });
+    }
+
+    const data = await Product.findAll(options);
     return data;
   },
 
