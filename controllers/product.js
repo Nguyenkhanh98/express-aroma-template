@@ -17,7 +17,6 @@ module.exports = {
     return data;
   },
   getAll: async (query) => {
-    console.log(query);
     const options = {
       include: [{ model: Category }],
       where: {

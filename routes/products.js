@@ -20,7 +20,7 @@ router.get('/', async (req, res, next) => {
         req.query.color = null;
       }
 
-      if (req.query.min && (isNaN(req.query.color))) {
+      if (req.query.min && (isNaN(req.query.min))) {
         req.query.min = 0;
       }
       if (req.query.max && (isNaN(req.query.max))) {
