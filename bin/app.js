@@ -30,6 +30,31 @@ const hbs = expressHbs.create({
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 Routes(app);
+//use body-parser
+let bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}));
+
+
+//use session
+let session = require('express-session');
+app.use(session({
+  cookie:{ httpOnly:true, maxAge: null},
+  secret: '53cret',
+  resave: false,
+  saveUninitialized: false
+}));
+
+//use cart controller
+//let Cart = require('..controllers/cartController');
+app.use((req, res, next)=>{
+  // var cart = new Cart(req.session.cart? req.session.cart : {});
+  // req.session.cart = cart;
+  // res.locals.totalQuantity = cart.totalQuantity;
+  req.locals.fullname = req.session.user ? req.session.user.fullname : '';
+  req.locals.isLoggedIn = req.session.user ? true : false;
+  next();
+});
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404));
