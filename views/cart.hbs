@@ -1,7 +1,7 @@
 {{> banner}}
 
 <!--================Cart Area =================-->
-{{!-- {{#with cart}} --}}
+{{#with cart}}
 <section class="cart_area">
     <div class="container">
         <div class="cart_inner" id="cart-body">
@@ -34,7 +34,7 @@
                             </td>
                             <td>
                                 <div class="product_count">
-                                    <input type="text" name="qty" id="sst{{item.id}}" maxlength="12" value="1"
+                                    <input type="text" name="qty" id="sst{{item.id}}" value="{{quantity}}" maxlength="12" value="1"
                                         title="Quantity:" class="input-text qty" readonly>
                                     <button
                                         onclick="var result = document.getElementById('sst{{item.id}}'); var sst = result.value; if( !isNaN( sst )) result.value++; updateCart({{item.id}}, result.value);return false;"
@@ -64,7 +64,7 @@
                             <td>
                                 <div class="cupon_text d-flex align-items-center">
                                     <input type="text" placeholder="Coupon Code">
-                                    <a class="primary-btn" href="#">Apply</a>
+                                    <a class="primary-btn" >Apply</a>
                                     <a class="button" href="#">Have a Coupon?</a>
                                 </div>
                             </td>
@@ -143,5 +143,6 @@
         </div>
     </div>
 </section>
-{{!-- {{/with}} --}}
+{{/with}}
+
 <!--================End Cart Area =================-->

@@ -3,7 +3,6 @@ $(document).ready(() => {
     //console.log('cart');
 })
 function addToCart() {
-    console.log('add to cart');
     var id = $(this).data('id');
     var quantity = $('#sst') ? $('#sst').val() : 1;
     $.ajax({
@@ -51,8 +50,8 @@ function updateCartItem(id, quantity) {
         data: { id, quantity },
         success: function (result) {
             $('#cart-badge').html(result.totalQuantity);
-            $('totalPrice').html('$' + result.totalPrice);
-            $('#price${id}').html('$' + result.item.price);
+            $("#totalPrice").html('$' + result.totalPrice);
+            $(`#price${id}`).html('$' + result.item.price);
         }
     })
 }

@@ -18,17 +18,15 @@ router.post('/',(req, res, next)=>{
     .getById(productId)
     .then(product =>{
         var cartItem = req.session.cart.add(product, productId, quantity);
-        console.log(cartItem);
         res.json(cartItem);
     })
     .catch(error => next(error));
-    console.log('post cart');
 });
 router.put('/',(req, res)=>{
-    var productID = req.body.id;
+    var productId = req.body.id;
     var quantity = parseInt(req.body.quantity);
     var cartItem = req.session.cart.update(productId, quantity);
-    res.json(cartItem);
+    res.json(cartItem); 
 });
 router.delete('/', (req, res)=>{
     var productId = req.body.id;
