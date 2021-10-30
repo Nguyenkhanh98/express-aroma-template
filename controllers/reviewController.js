@@ -60,5 +60,5 @@ controller.getUserReviewProduct = (userId, productId) =>{
             productId
         }
     })
-}
+};
 module.exports = controller;

@@ -1,7 +1,9 @@
 $(document).ready(() => {
     $('.add-to-cart').on('click', addToCart);
+    //console.log('cart');
 })
 function addToCart() {
+    console.log('add to cart');
     var id = $(this).data('id');
     var quantity = $('#sst') ? $('#sst').val() : 1;
     $.ajax({
@@ -10,8 +12,13 @@ function addToCart() {
         data: { id, quantity },
         success: function (result) {
             $('#cart-badge').html(result.totalQuantity);
+            console.log('Ajax Success');
+        },
+        error: function (data){
+            console.log('Ajax False');
         }
     })
+    
 }
 function updateCart(id, quantity) {
     if (quantity == 0) {

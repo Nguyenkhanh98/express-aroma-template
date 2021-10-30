@@ -1,21 +1,28 @@
-let express = require('express');
-let router = express.Router();
-router.get('/', (req, res)=>{
-    var cart= req.session.cart;
-    res.locals.cart = cart.getCart();
-    res.render('Cart');
+const express = require('express');
+const router = express.Router();
+
+router.get('/', async (req, res, next) => {
+    var cart = await req.session.cart;
+    res.locals.cart = await cart.getCart();
+    console.log(res.locals.cart);
+    res.render('cart');
 });
 router.post('/',(req, res, next)=>{
     var productId = req.body.id;
+
+    console.log(req.session);
+
     var quantity = isNaN(req.body.quantity) ? 1 : req.body.quantity;
     var productController = require('../controllers/product');
     productController
     .getById(productId)
-    .then(productId =>{
+    .then(product =>{
         var cartItem = req.session.cart.add(product, productId, quantity);
+        console.log(cartItem);
         res.json(cartItem);
     })
     .catch(error => next(error));
+    console.log('post cart');
 });
 router.put('/',(req, res)=>{
     var productID = req.body.id;
@@ -37,4 +44,4 @@ router.delete('/all', (req, res)=>{
     res.end();
 });
 
-module.exports= router;
+module.exports = router;

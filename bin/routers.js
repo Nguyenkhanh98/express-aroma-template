@@ -11,9 +11,10 @@ module.exports = (app) => {
   app.use('/blogs', blogsRouter);
   app.use('/products', productsRoute);
   app.use('/category', categoriesRoute);
-  app.use('/', indexRouter);
   app.use('/cart', cartRouter);
   app.use('/comments', commentRouter);
   app.use('/reviews', reviewRouter);
   app.use('/users', usersRouter);
+  app.use('/', indexRouter);
+
 };

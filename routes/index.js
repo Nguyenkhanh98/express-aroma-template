@@ -10,7 +10,6 @@ router.get('/', async (req, res, next) => {
   try {
     const categories = await categoryController.getAll();
     const trendingProducts = await productController.getTrendingProducts();
-
     res.locals.categories = categories;
     res.locals.trendingProducts = trendingProducts;
     res.render('index');

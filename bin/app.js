@@ -3,9 +3,13 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+let bodyParser = require('body-parser');
 const expressHbs = require('express-handlebars');
 const Routes = require('./routers');
 const hbsHelper = require('../utils/hbs');
+let Cart = require('../controllers/cartController');
+let session = require('express-session');
+
 
 const app = express();
 
@@ -27,34 +31,31 @@ const hbs = expressHbs.create({
   partialsDir: `${__dirname}/../views/partials/`,
   helpers: { ...hbsHelper },
 });
+
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
-Routes(app);
-//use body-parser
-let bodyParser = require('body-parser');
+
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:false}));
-
-
-//use session
-let session = require('express-session');
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({
-  cookie:{ httpOnly:true, maxAge: null},
+  cookie: { httpOnly: true, maxAge: null },
   secret: '53cret',
   resave: false,
   saveUninitialized: false
 }));
 
-//use cart controller
-//let Cart = require('..controllers/cartController');
-app.use((req, res, next)=>{
-  // var cart = new Cart(req.session.cart? req.session.cart : {});
-  // req.session.cart = cart;
-  // res.locals.totalQuantity = cart.totalQuantity;
-  req.locals.fullname = req.session.user ? req.session.user.fullname : '';
-  req.locals.isLoggedIn = req.session.user ? true : false;
+app.use((req, res, next) => {
+  var cart = new Cart(req.session.cart ? req.session.cart : {});
+  res.locals.totalQuantity = cart.totalQuantity;
+  req.session.cart = cart;
+  res.locals.fullname = req.session.user ? req.session.user.fullname : '';
+  res.locals.isLoggedIn = req.session.user ? true : false;
   next();
 });
+
+Routes(app);
+
+
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404));
