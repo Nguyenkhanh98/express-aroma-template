@@ -57,18 +57,17 @@ router.post('/register', (req, res, next) => {
         })
 });
 router.post('/login', (req, res, next) => {
+    console.log("login");
     let email = req.body.username;
     let password = req.body.password;
     let keepLoggedIn = (req.body.keepLoggedIn != undefined);
-    console.log("password");
     userController
         .getUserByEmail(email)
         .then(user => {
             if (user) {
-                console.log(user.password +"  "+ password);
                 if (userController.comparePassword(password, user.password)) {
                     req.session.cookie.maxAge = keepLoggedIn ? 30 * 24 *  60 * 60 * 100 : null;
-                    res.session.user = user;
+                    req.session.user = user;
                     if( req.session.returnURL ){
                         res.redirect(req.session.returnURL);
                     } else {
@@ -89,7 +88,7 @@ router.post('/login', (req, res, next) => {
             }
         })
 });
-router.get('logout', (req, res, next) => {
+router.get('/logout', (req, res, next) => {
     req.session.destroy(error => {
         if (error) {
             return next(error);
